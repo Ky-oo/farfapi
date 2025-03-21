@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const verifyAdmin = require("../middleware/verify_is_admin");
 const { Post } = require("../model");
 
 // Route to get all posts
@@ -31,7 +32,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Route to create a new post
-router.post("/", async (req, res) => {
+router.post("/", verifyAdmin, async (req, res) => {
   try {
     const {
       title,
@@ -64,7 +65,7 @@ router.post("/", async (req, res) => {
 });
 
 // Route to update a post by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const {
@@ -104,7 +105,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Route to delete a post by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 
