@@ -39,6 +39,10 @@ router.post("/", async (req, res) => {
   try {
     const { name, description, status, date, UserId, typeTaskId } = req.body;
 
+    if (!name || !status || !date) {
+      return res.status(400).json({ message: "Informations manquantes" });
+    }
+
     const newTask = await Task.create({
       name,
       description,
@@ -63,6 +67,10 @@ router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { name, description, status, date, UserId, typeTaskId } = req.body;
 
+    if (!name || !status || !date) {
+      return res.status(400).json({ message: "Informations manquantes" });
+    }
+
     const task = await Task.findByPk(id);
 
     if (!task) {
@@ -73,8 +81,8 @@ router.put("/:id", async (req, res) => {
     task.description = description;
     task.status = status;
     task.date = date;
-    task.UserId = UserId;
-    task.TypeTaskId = typeTaskId;
+    task.UserId = UserId || task.UserId;
+    task.TypeTaskId = typeTaskId || task.TypeTaskId;
 
     await task.save();
 

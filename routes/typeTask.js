@@ -9,12 +9,10 @@ router.get("/", async (req, res) => {
     res.status(200).json(typeTasks);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la récupération des types de tâches",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la récupération des types de tâches",
+      error,
+    });
   }
 });
 
@@ -31,12 +29,10 @@ router.get("/:id", async (req, res) => {
     res.status(200).json(typeTask);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la récupération du type de tâche",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la récupération du type de tâche",
+      error,
+    });
   }
 });
 
@@ -44,6 +40,10 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ message: "Informations manquantes" });
+    }
 
     const newTypeTask = await TypeTasks.create({ name });
     res.status(201).json(newTypeTask);
@@ -61,6 +61,10 @@ router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
 
+    if (!name) {
+      return res.status(400).json({ message: "Informations manquantes" });
+    }
+
     const typeTask = await TypeTasks.findByPk(id);
 
     if (!typeTask) {
@@ -73,12 +77,10 @@ router.put("/:id", async (req, res) => {
     res.status(200).json(typeTask);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la mise à jour du type de tâche",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la mise à jour du type de tâche",
+      error,
+    });
   }
 });
 
@@ -97,12 +99,10 @@ router.delete("/:id", async (req, res) => {
     res.status(204).end();
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la suppression du type de tâche",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la suppression du type de tâche",
+      error,
+    });
   }
 });
 

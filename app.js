@@ -10,6 +10,14 @@ require("./model");
 
 // Initialize routers
 var userRouter = require("./routes/user");
+var expenseRouter = require("./routes/expense");
+var monthlyExpenseRouter = require("./routes/monthlyExpenses");
+var postRouter = require("./routes/post");
+var subjectRouter = require("./routes/subject");
+var subscriptionRouter = require("./routes/subscription");
+var taskRouter = require("./routes/task");
+var typeExpenseRouter = require("./routes/typeExpenses");
+var typeTaskRouter = require("./routes/typeTask");
 
 // Initialize Express app
 var app = express();
@@ -20,5 +28,13 @@ app.use(express.urlencoded({ extended: false }));
 
 // Define routes
 app.use("/user", userRouter);
+app.use("/expense", expenseRouter);
+app.use("/monthly_expense", monthlyExpenseRouter);
+app.use("/post", postRouter);
+app.use("/subject", subjectRouter);
+app.use("/subscription", subscriptionRouter);
+app.use("/task", taskRouter);
+app.use("/type_expense", typeExpenseRouter);
+app.use("/type_task", typeTaskRouter);
 
 module.exports = app;

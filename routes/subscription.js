@@ -38,6 +38,10 @@ router.post("/", async (req, res) => {
     const { UserId, subscriptionDate, endSubscriptionDate, isActive } =
       req.body;
 
+    if (!subscriptionDate || !endSubscriptionDate || !isActive) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
+
     const newSubscription = await Subscription.create({
       UserId,
       subscriptionDate,
@@ -58,13 +62,17 @@ router.put("/:id", async (req, res) => {
     const { UserId, subscriptionDate, endSubscriptionDate, isActive } =
       req.body;
 
+    if (!subscriptionDate || !endSubscriptionDate || !isActive) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
+
     const subscription = await Subscription.findByPk(id);
 
     if (!subscription) {
       return res.status(404).json({ message: "Subscription not found" });
     }
 
-    subscription.UserId = UserId;
+    subscription.UserId = UserId || subscription.UserId;
     subscription.subscriptionDate = subscriptionDate;
     subscription.endSubscriptionDate = endSubscriptionDate;
     subscription.isActive = isActive;

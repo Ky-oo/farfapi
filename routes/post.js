@@ -33,11 +33,26 @@ router.get("/:id", async (req, res) => {
 // Route to create a new post
 router.post("/", async (req, res) => {
   try {
-    const { title, content, UserId, subjectId } = req.body;
+    const {
+      title,
+      description,
+      content,
+      published,
+      publishedAt,
+      UserId,
+      subjectId,
+    } = req.body;
+
+    if (!title || !description || !content) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
 
     const newPost = await Post.create({
       title,
+      description,
       content,
+      published,
+      publishedAt,
       UserId,
       subjectId,
     });
@@ -52,7 +67,19 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, content, UserId, subjectId } = req.body;
+    const {
+      title,
+      description,
+      content,
+      published,
+      publishedAt,
+      UserId,
+      subjectId,
+    } = req.body;
+
+    if (!title || !description || !content) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
 
     const post = await Post.findByPk(id);
 
@@ -61,9 +88,12 @@ router.put("/:id", async (req, res) => {
     }
 
     post.title = title;
+    post.description = description;
     post.content = content;
-    post.UserId = UserId;
-    post.subjectId = subjectId;
+    post.published = published;
+    post.publishedAt = publishedAt;
+    post.UserId = UserId || post.UserId;
+    post.subjectId = subjectId || post.subjectId;
     await post.save();
 
     res.status(200).json(post);

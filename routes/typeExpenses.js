@@ -37,6 +37,10 @@ router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
 
+    if (!name) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
+
     const newTypeExpense = await TypeExpenses.create({ name });
     res.status(201).json(newTypeExpense);
   } catch (error) {
@@ -50,6 +54,10 @@ router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
 
     const typeExpense = await TypeExpenses.findByPk(id);
 

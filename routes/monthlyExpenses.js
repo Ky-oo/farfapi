@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const { MonthlyExpenses, User } = require("../model");
-const { use } = require("../app");
 
 // Route to get a list of all monthly expenses
 router.get("/", async function (req, res) {
@@ -53,6 +52,10 @@ router.post("/", async function (req, res) {
   try {
     const { monthName, year, max_expense, UserId } = req.body;
 
+    if (!monthName || !year || !max_expense) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
+
     const monthlyExpense = await MonthlyExpenses.create({
       monthName,
       year,
@@ -73,6 +76,10 @@ router.put("/:id", async function (req, res) {
     const { id } = req.params;
     const { monthName, year, max_expense, UserId } = req.body;
 
+    if (!monthName || !year || !max_expense) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
+
     const updatedMonthlyExpense = await MonthlyExpenses.findByPk(id);
 
     if (!updatedMonthlyExpense) {
@@ -82,7 +89,7 @@ router.put("/:id", async function (req, res) {
     updatedMonthlyExpense.monthName = monthName;
     updatedMonthlyExpense.year = year;
     updatedMonthlyExpense.max_expense = max_expense;
-    updatedMonthlyExpense.UserId = UserId;
+    updatedMonthlyExpense.UserId = UserId || updatedMonthlyExpense.UserId;
 
     updatedMonthlyExpense.save();
 

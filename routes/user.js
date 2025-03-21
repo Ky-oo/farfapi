@@ -38,6 +38,10 @@ router.put("/:id", async function (req, res) {
     const { email, password, isAdmin, firstname, lastname, gender, city } =
       req.body;
 
+    if (!email || !password || !firstname || !lastname || !gender || !city) {
+      return res.status(400).json({ message: "Missing required information" });
+    }
+
     const user = await User.findByPk(id);
 
     if (!user) {
