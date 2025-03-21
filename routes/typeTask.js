@@ -38,7 +38,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Route to create a new type of task
-router.post("/", verifyAdmin, async (req, res) => {
+router.post("/", verifyIsAdmin, async (req, res) => {
   try {
     const { name } = req.body;
 
@@ -57,7 +57,7 @@ router.post("/", verifyAdmin, async (req, res) => {
 });
 
 // Route to update a type of task by ID
-router.put("/:id", verifyAdmin, async (req, res) => {
+router.put("/:id", verifyIsAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
@@ -86,7 +86,7 @@ router.put("/:id", verifyAdmin, async (req, res) => {
 });
 
 // Route to delete a type of task by ID
-router.delete("/:id", verifyAdmin, async (req, res) => {
+router.delete("/:id", verifyIsAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 
