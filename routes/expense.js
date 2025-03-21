@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // Route to create a new expense
 router.post("/", async (req, res) => {
   try {
-    const { cost, name, date, MonthlyExpenseId, TypeExpenseId, userId } =
+    const { cost, name, date, MonthlyExpenseId, TypeExpenseId, UserId } =
       req.body;
 
     const newExpense = await Expense.create({
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
       date,
       MonthlyExpenseId,
       TypeExpenseId,
-      userId,
+      UserId,
     });
 
     res.status(201).json(newExpense);
@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { cost, name, date, MonthlyExpenseId, TypeExpenseId, userId } =
+    const { cost, name, date, MonthlyExpenseId, TypeExpenseId, UserId } =
       req.body;
 
     const updatedExpense = await Expense.findById(id);
@@ -51,7 +51,7 @@ router.put("/:id", async (req, res) => {
     updatedExpense.date = date;
     updatedExpense.MonthlyExpenseId = MonthlyExpenseId;
     updatedExpense.TypeExpenseId = TypeExpenseId;
-    updatedExpense.userId = userId;
+    updatedExpense.UserId = UserId;
 
     await updatedExpense.save();
 

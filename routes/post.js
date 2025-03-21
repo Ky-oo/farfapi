@@ -33,12 +33,12 @@ router.get("/:id", async (req, res) => {
 // Route to create a new post
 router.post("/", async (req, res) => {
   try {
-    const { title, content, userId, subjectId } = req.body;
+    const { title, content, UserId, subjectId } = req.body;
 
     const newPost = await Post.create({
       title,
       content,
-      userId,
+      UserId,
       subjectId,
     });
     res.status(201).json(newPost);
@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, content, userId, subjectId } = req.body;
+    const { title, content, UserId, subjectId } = req.body;
 
     const post = await Post.findByPk(id);
 
@@ -62,7 +62,7 @@ router.put("/:id", async (req, res) => {
 
     post.title = title;
     post.content = content;
-    post.userId = userId;
+    post.UserId = UserId;
     post.subjectId = subjectId;
     await post.save();
 
