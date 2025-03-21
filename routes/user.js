@@ -19,6 +19,11 @@ router.get("/", async function (req, res) {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (users.length === 0) {
+      return res.status(404).json({ error: "No users as been found" });
+    }
+
     return res
       .status(200)
       .json({ data: users, totalPages: pagination.totalPages });

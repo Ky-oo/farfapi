@@ -17,6 +17,12 @@ router.get("/", async function (req, res) {
       offset: pagination.offset,
     });
 
+    if (monthlyExpenses.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No monthly expenses as been found" });
+    }
+
     return res
       .status(200)
       .json({ data: monthlyExpenses, totalPages: pagination.totalPages });
@@ -59,6 +65,12 @@ router.get("/user/:id", async function (req, res) {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.MonthlyExpenses.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No monthly expenses found for this user" });
     }
 
     res.status(200).json(user.MonthlyExpenses);

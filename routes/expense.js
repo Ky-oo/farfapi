@@ -16,6 +16,11 @@ router.get("/", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (expenses.length === 0) {
+      return res.status(404).json({ error: "No expenses as been found" });
+    }
+
     res.status(200).json({ data: expenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
@@ -54,8 +59,9 @@ router.get("/user/:id", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
     if (!expenses) {
-      return res.status(404).json({ error: "Expenses not found" });
+      return res.status(404).json({ error: "No expenses as been found" });
     }
 
     res.status(200).json({ data: expenses, totalPages: pagination.totalPages });

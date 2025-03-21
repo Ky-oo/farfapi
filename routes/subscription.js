@@ -16,6 +16,11 @@ router.get("/", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (!subscriptions) {
+      return res.status(404).json({ error: "No subscriptions as been found" });
+    }
+
     res
       .status(200)
       .json({ data: subscriptions, totalPages: pagination.totalPages });

@@ -16,6 +16,11 @@ router.get("/", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (tasks.length === 0) {
+      return res.status(404).json({ error: "No tasks as been found" });
+    }
+
     res.status(200).json({ data: tasks, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
@@ -61,7 +66,7 @@ router.get("/user/:id", async (req, res) => {
     });
 
     if (!tasks) {
-      return res.status(404).json({ message: "Tâches non trouvées" });
+      return res.status(404).json({ error: "No tasks as been found" });
     }
 
     res.status(200).json({ data: tasks, totalPages: pagination.totalPages });

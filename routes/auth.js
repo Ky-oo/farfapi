@@ -50,7 +50,7 @@ router.post("/signup", async (req, res) => {
     res.json(user);
   } catch (error) {
     res.status(500);
-    console.log(error);
+    console.error(error);
     res.json({ message: "unexpected error" });
     return;
   }
@@ -73,7 +73,7 @@ router.post("/signup", async (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 });

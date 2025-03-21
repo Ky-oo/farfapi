@@ -17,6 +17,11 @@ router.get("/", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (typeExpenses.length === 0) {
+      return res.status(404).json({ error: "No type expenses as been found" });
+    }
+
     res
       .status(200)
       .json({ data: typeExpenses, totalPages: pagination.totalPages });

@@ -17,6 +17,11 @@ router.get("/", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (!posts) {
+      return res.status(404).json({ error: "No posts as been found" });
+    }
+
     res.status(200).json({ data: posts, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);

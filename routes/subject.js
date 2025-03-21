@@ -17,6 +17,11 @@ router.get("/", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (!subjects) {
+      return res.status(404).json({ error: "No subjects as been found" });
+    }
+
     res.status(200).json({ data: subjects, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);

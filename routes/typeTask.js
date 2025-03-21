@@ -17,6 +17,11 @@ router.get("/", async (req, res) => {
       limit: pagination.limit,
       offset: pagination.offset,
     });
+
+    if (typeTasks.length === 0) {
+      return res.status(404).json({ error: "No type tasks as been found" });
+    }
+
     res
       .status(200)
       .json({ data: typeTasks, totalPages: pagination.totalPages });
