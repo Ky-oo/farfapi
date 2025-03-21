@@ -18,6 +18,9 @@ Expense.belongsTo(MonthlyExpenses);
 TypeExpenses.hasMany(Expense);
 Expense.belongsTo(TypeExpenses);
 
+User.hasMany(Expense);
+Expense.belongsTo(User);
+
 User.hasMany(Post);
 Post.belongsTo(User);
 
@@ -27,8 +30,8 @@ Subject.hasMany(Post);
 User.hasMany(Task);
 Task.belongsTo(User);
 
-TypeTasks.belongsTo(Subject);
-Subject.hasMany(TypeTasks);
+Task.belongsTo(TypeTasks);
+TypeTasks.hasMany(Task);
 
 User.hasMany(Subscription);
 Subscription.belongsTo(User);

@@ -7,6 +7,10 @@ const MonthlyExpenses = sequelize.define("MonthlyExpenses", {
     type: DataTypes.STRING(255),
     allowNull: false,
   },
+  year: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   max_expense: {
     type: DataTypes.FLOAT,
     allowNull: false,

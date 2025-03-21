@@ -1,5 +1,5 @@
-var express = require('express');
-var path = require('path');
+var express = require("express");
+var path = require("path");
 
 // Load environment variables
 const dotenv = require("dotenv");
@@ -9,7 +9,7 @@ dotenv.config();
 require("./model");
 
 // Initialize routers
-var usersRouter = require('./routes/users');
+var userRouter = require("./routes/user");
 
 // Initialize Express app
 var app = express();
@@ -19,6 +19,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Define routes
-app.use('/users', usersRouter);
+app.use("/user", userRouter);
 
 module.exports = app;
