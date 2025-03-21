@@ -2,12 +2,22 @@ var express = require("express");
 var router = express.Router();
 const verifyAdmin = require("../middleware/verifyIsAdmin");
 const { Subject } = require("../model");
+const handlePagination = require("./utils/pagination");
 
 // Route to get all subjects
 router.get("/", async (req, res) => {
   try {
-    const subjects = await Subject.findAll();
-    res.status(200).json(subjects);
+    const pagination = await handlePagination(req, Subject);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    const subjects = await Subject.findAll({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+    res.status(200).json({ data: subjects, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving subjects", error });

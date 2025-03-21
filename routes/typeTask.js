@@ -2,12 +2,24 @@ var express = require("express");
 var router = express.Router();
 const verifyIsAdmin = require("../middleware/verifyIsAdmin");
 const { TypeTasks } = require("../model");
+const handlePagination = require("./utils/pagination");
 
 // Route to get all type of tasks
 router.get("/", async (req, res) => {
   try {
-    const typeTasks = await TypeTasks.findAll();
-    res.status(200).json(typeTasks);
+    const pagination = await handlePagination(req, TypeTasks);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    const typeTasks = await TypeTasks.findAll({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+    res
+      .status(200)
+      .json({ data: typeTasks, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     res.status(500).json({

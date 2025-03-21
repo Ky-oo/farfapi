@@ -1,12 +1,25 @@
 var express = require("express");
 var router = express.Router();
 const { MonthlyExpenses, User } = require("../model");
+const handlePagination = require("./utils/pagination");
 
 // Route to get a list of all monthly expenses
 router.get("/", async function (req, res) {
   try {
-    const monthlyExpenses = await MonthlyExpenses.findAll();
-    return res.status(200).json(monthlyExpenses);
+    const pagination = await handlePagination(req, MonthlyExpenses);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    const monthlyExpenses = await MonthlyExpenses.findAll({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+
+    return res
+      .status(200)
+      .json({ data: monthlyExpenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     return res
@@ -60,13 +73,23 @@ router.get("/user/:id", async function (req, res) {
 // Route to get a list of monthly expenses by month and year
 router.get("/byMonthYear", async function (req, res) {
   try {
+    const pagination = await handlePagination(req, MonthlyExpenses);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
     const { month, year } = req.query;
 
     const monthlyExpenses = await MonthlyExpenses.findAll({
       where: { month, year },
+      limit: pagination.limit,
+      offset: pagination.offset,
     });
 
-    res.status(200).json(monthlyExpenses);
+    res
+      .status(200)
+      .json({ data: MonthlyExpenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     return res

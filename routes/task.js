@@ -1,12 +1,22 @@
 var express = require("express");
 var router = express.Router();
 const { Task } = require("../model");
+const handlePagination = require("./utils/pagination");
 
 // Route to get all tasks
 router.get("/", async (req, res) => {
   try {
-    const tasks = await Task.findAll();
-    res.status(200).json(tasks);
+    const pagination = await handlePagination(req, Task);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    const tasks = await Task.findAll({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+    res.status(200).json({ data: tasks, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     res
@@ -37,14 +47,24 @@ router.get("/:id", async (req, res) => {
 // Route to get all tasks by UserId
 router.get("/user/:id", async (req, res) => {
   try {
+    const pagination = await handlePagination(req, Task);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
     const { id } = req.params;
-    const tasks = await Task.findAll({ where: { UserId: id } });
+    const tasks = await Task.findAll({
+      where: { UserId: id },
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
 
     if (!tasks) {
       return res.status(404).json({ message: "Tâches non trouvées" });
     }
 
-    res.status(200).json(tasks);
+    res.status(200).json({ data: tasks, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     res

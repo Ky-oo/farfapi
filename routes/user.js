@@ -4,12 +4,24 @@ const verifyIsAdmin = require("../middleware/verifyIsAdmin");
 const { User } = require("../model");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
+const handlePagination = require("./utils/pagination");
 
 // Route to get a list of all users
 router.get("/", async function (req, res) {
   try {
-    const users = await User.findAll();
-    return res.status(200).json(users);
+    const pagination = await handlePagination(req, User);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    const users = await User.findAll({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+    return res
+      .status(200)
+      .json({ data: users, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     return res

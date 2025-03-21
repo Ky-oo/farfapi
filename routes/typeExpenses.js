@@ -2,12 +2,24 @@ var express = require("express");
 var router = express.Router();
 const { TypeExpenses } = require("../model");
 const verifyIsAdmin = require("../middleware/verifyIsAdmin");
+const handlePagination = require("./utils/pagination");
 
 // Route to get all expense types
 router.get("/", async (req, res) => {
   try {
-    const typeExpenses = await TypeExpenses.findAll();
-    res.status(200).json(typeExpenses);
+    const pagination = await handlePagination(req, TypeExpenses);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    const typeExpenses = await TypeExpenses.findAll({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+    res
+      .status(200)
+      .json({ data: typeExpenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving expense types", error });

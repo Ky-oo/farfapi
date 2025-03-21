@@ -1,12 +1,22 @@
 var express = require("express");
 var router = express.Router();
 const { Expense } = require("../model");
+const handlePagination = require("./utils/pagination");
 
 // Route to get a list of all expenses
 router.get("/", async (req, res) => {
   try {
-    const expenses = await Expense.findAll();
-    res.status(200).json(expenses);
+    const pagination = await handlePagination(req, Expense);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    const expenses = await Expense.findAll({
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+    res.status(200).json({ data: expenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch expenses" });
@@ -32,13 +42,23 @@ router.get("/:id", async (req, res) => {
 // Route to get all expenses by UserId
 router.get("/user/:id", async (req, res) => {
   try {
+    const pagination = await handlePagination(req, Expense);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
     const { id } = req.params;
-    const expenses = await Expense.findAll({ where: { UserId: id } });
+    const expenses = await Expense.findAll({
+      where: { UserId: id },
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
     if (!expenses) {
       return res.status(404).json({ error: "Expenses not found" });
     }
 
-    res.status(200).json(expenses);
+    res.status(200).json({ data: expenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch expenses" });
@@ -51,14 +71,7 @@ router.post("/", async (req, res) => {
     const { cost, name, date, MonthlyExpenseId, TypeExpenseId, UserId } =
       req.body;
 
-    if (
-      !cost ||
-      !name ||
-      !date ||
-      !MonthlyExpenseId ||
-      !TypeExpenseId ||
-      !UserId
-    ) {
+    if (!cost || !name || !date) {
       return res.status(400).json({ error: "Missing required information" });
     }
 
