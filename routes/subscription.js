@@ -32,6 +32,23 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Route to get all subscriptions by UserId
+router.get("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const subscriptions = await Subscription.findAll({ where: { UserId: id } });
+
+    if (!subscriptions) {
+      return res.status(404).json({ message: "Subscriptions not found" });
+    }
+
+    res.status(200).json(subscriptions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving subscriptions", error });
+  }
+});
+
 // Route to create a new subscription
 router.post("/", async (req, res) => {
   try {

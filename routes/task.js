@@ -34,6 +34,25 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Route pour récupérer toutes les tâches par UserId
+router.get("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const tasks = await Task.findAll({ where: { UserId: id } });
+
+    if (!tasks) {
+      return res.status(404).json({ message: "Tâches non trouvées" });
+    }
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la récupération des tâches", error });
+  }
+});
+
 // Route pour créer une nouvelle tâche
 router.post("/", async (req, res) => {
   try {

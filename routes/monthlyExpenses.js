@@ -31,6 +31,26 @@ router.get("/:id", async function (req, res) {
   }
 });
 
+// Route to get all monthly expenses by UserId
+router.get("/user/:id", async function (req, res) {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByPk(id, {
+      include: { model: MonthlyExpenses },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user.MonthlyExpenses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 // Route to get a list of monthly expenses by month and year
 router.get("/byMonthYear", async function (req, res) {
   try {

@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const { TypeExpenses } = require("../model");
+const verifyIsAdmin = require("../middleware/verify_is_admin");
 
 // Route to get all expense types
 router.get("/", async (req, res) => {
@@ -33,7 +34,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Route to create a new expense type
-router.post("/", async (req, res) => {
+router.post("/", verifyIsAdmin, async (req, res) => {
   try {
     const { name } = req.body;
 
@@ -50,7 +51,7 @@ router.post("/", async (req, res) => {
 });
 
 // Route to update an expense type by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyIsAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
@@ -76,7 +77,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Route to delete an expense type by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyIsAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 

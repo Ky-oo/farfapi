@@ -29,6 +29,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Route to get all expenses by UserId
+router.get("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const expenses = await Expense.findAll({ where: { UserId: id } });
+    if (!expenses) {
+      return res.status(404).json({ error: "Expenses not found" });
+    }
+
+    res.status(200).json(expenses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch expenses" });
+  }
+});
+
 // Route to create a new expense
 router.post("/", async (req, res) => {
   try {
