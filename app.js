@@ -1,20 +1,24 @@
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+// Load environment variables
+const dotenv = require("dotenv");
+dotenv.config();
+
+// Load ORM
+require("./model");
+
+// Initialize routers
 var usersRouter = require('./routes/users');
 
+// Initialize Express app
 var app = express();
 
-app.use(logger('dev'));
+// Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+// Define routes
 app.use('/users', usersRouter);
 
 module.exports = app;
