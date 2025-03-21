@@ -98,7 +98,7 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
     }
 
     await subject.destroy();
-    res.status(204).json({ message: "Subject deleted" });
+    res.status(204).end();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error deleting the subject", error });

@@ -114,7 +114,7 @@ router.delete("/:id", verifyIsAdmin, async (req, res) => {
     }
 
     await typeTask.destroy();
-    res.status(204).json({ message: "Type de tâche supprimé" });
+    res.status(204).end();
   } catch (error) {
     console.error(error);
     res.status(500).json({

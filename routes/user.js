@@ -29,12 +29,10 @@ router.get("/", async function (req, res) {
       .json({ data: users, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -52,12 +50,10 @@ router.get("/:id", async function (req, res) {
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -101,12 +97,10 @@ router.put("/:id", async function (req, res) {
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -122,15 +116,13 @@ router.delete("/:id", verifyIsAdmin, async function (req, res) {
     }
 
     user.destroy();
-    res.status(204).json("User deleted");
+    res.status(204).end();
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -154,12 +146,10 @@ router.post("/:id/admin", verifyIsAdmin, async function (req, res) {
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 

@@ -26,12 +26,10 @@ router.get("/", async function (req, res) {
       .json({ data: monthlyExpenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -49,12 +47,10 @@ router.get("/:id", async function (req, res) {
     res.status(200).json(monthlyExpense);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -80,12 +76,10 @@ router.get("/user/:id", async function (req, res) {
     res.status(200).json(user.MonthlyExpenses);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -111,12 +105,10 @@ router.get("/byMonthYear", async function (req, res) {
       .json({ data: MonthlyExpenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -139,12 +131,10 @@ router.post("/", async function (req, res) {
     res.status(201).json(monthlyExpense);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -174,12 +164,10 @@ router.put("/:id", async function (req, res) {
     res.status(200).json(updatedMonthlyExpense);
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
   }
 });
 
@@ -195,15 +183,10 @@ router.delete("/:id", async function (req, res) {
     }
 
     monthlyExpense.destroy();
-    res.status(204).json({ message: "Monthly expense deleted" });
+    res.status(204).end();
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({
-        message: "An An unexpected error occurred",
-        error: error.message,
-      });
+    return res.status(500).end();
   }
 });
 

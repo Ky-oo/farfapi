@@ -141,7 +141,7 @@ router.delete("/:id", async (req, res) => {
     }
 
     await task.destroy();
-    res.status(204).json({ message: "Task successfully deleted" });
+    res.status(204).end();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error while deleting the task", error });
