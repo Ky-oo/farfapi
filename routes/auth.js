@@ -51,7 +51,7 @@ router.post("/signup", async (req, res) => {
   } catch (error) {
     res.status(500);
     console.error(error);
-    res.json({ message: "unexpected error" });
+    res.json({ message: "Unexpected error" });
     return;
   }
 
@@ -91,7 +91,7 @@ router.post("/login", async (req, res) => {
   const user = await User.findOne({ where: { email: email } });
   if (!user) {
     res.status(404);
-    res.json({ message: " Email or password incorrect" });
+    res.json({ message: " Invalid email or password" });
     return;
   }
 
@@ -100,7 +100,7 @@ router.post("/login", async (req, res) => {
 
   try {
     if (!passwordOk) {
-      res.status(404).json({ message: "Email or password incorrect" });
+      res.status(404).json({ message: "Invalid email or password" });
       return;
     }
 

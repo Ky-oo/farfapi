@@ -19,13 +19,13 @@ router.get("/", async (req, res) => {
     });
 
     if (!posts) {
-      return res.status(404).json({ error: "No posts as been found" });
+      return res.status(404).json({ error: "No posts found" });
     }
 
     res.status(200).json({ data: posts, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error retrieving posts", error });
+    res.status(500).json({ message: "Error fetching posts", error });
   }
 });
 
@@ -60,7 +60,7 @@ router.post("/", verifyAdmin, async (req, res) => {
     } = req.body;
 
     if (!title || !description || !content) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const newPost = await Post.create({
@@ -94,7 +94,7 @@ router.put("/:id", verifyAdmin, async (req, res) => {
     } = req.body;
 
     if (!title || !description || !content) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const post = await Post.findByPk(id);

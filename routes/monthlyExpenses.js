@@ -18,9 +18,7 @@ router.get("/", async function (req, res) {
     });
 
     if (monthlyExpenses.length === 0) {
-      return res
-        .status(404)
-        .json({ error: "No monthly expenses as been found" });
+      return res.status(404).json({ error: "No monthly expenses found" });
     }
 
     return res
@@ -30,7 +28,10 @@ router.get("/", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -50,7 +51,10 @@ router.get("/:id", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -78,7 +82,10 @@ router.get("/user/:id", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -106,7 +113,10 @@ router.get("/byMonthYear", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -116,7 +126,7 @@ router.post("/", async function (req, res) {
     const { monthName, year, max_expense, UserId } = req.body;
 
     if (!monthName || !year || !max_expense) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const monthlyExpense = await MonthlyExpenses.create({
@@ -131,7 +141,10 @@ router.post("/", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -142,7 +155,7 @@ router.put("/:id", async function (req, res) {
     const { monthName, year, max_expense, UserId } = req.body;
 
     if (!monthName || !year || !max_expense) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const updatedMonthlyExpense = await MonthlyExpenses.findByPk(id);
@@ -163,7 +176,10 @@ router.put("/:id", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -184,7 +200,10 @@ router.delete("/:id", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 

@@ -10,14 +10,16 @@ const jwt = require("jsonwebtoken");
 function verifyToken(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "Token required" });
+    return res.status(401).json({ message: "Authorization token is required" });
   }
 
   jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, payload) => {
     if (err) {
       return res.status(401).json({
         message:
-          err.name === "TokenExpiredError" ? "Token expired" : "Token invalid",
+          err.name === "TokenExpiredError"
+            ? "Token expired"
+            : "Invalid authorization token",
       });
     }
     req.user_id = payload.id;

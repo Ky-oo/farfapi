@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
     });
 
     if (typeExpenses.length === 0) {
-      return res.status(404).json({ error: "No type expenses as been found" });
+      return res.status(404).json({ error: "No expense types found" });
     }
 
     res
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
       .json({ data: typeExpenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error retrieving expense types", error });
+    res.status(500).json({ message: "Error fetching expense types", error });
   }
 });
 
@@ -56,7 +56,7 @@ router.post("/", verifyIsAdmin, async (req, res) => {
     const { name } = req.body;
 
     if (!name) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const newTypeExpense = await TypeExpenses.create({ name });
@@ -74,7 +74,7 @@ router.put("/:id", verifyIsAdmin, async (req, res) => {
     const { name } = req.body;
 
     if (!name) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const typeExpense = await TypeExpenses.findByPk(id);

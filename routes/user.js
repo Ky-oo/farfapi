@@ -21,7 +21,7 @@ router.get("/", async function (req, res) {
     });
 
     if (users.length === 0) {
-      return res.status(404).json({ error: "No users as been found" });
+      return res.status(404).json({ error: "No users found" });
     }
 
     return res
@@ -31,7 +31,10 @@ router.get("/", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -51,7 +54,10 @@ router.get("/:id", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -63,7 +69,7 @@ router.put("/:id", async function (req, res) {
       req.body;
 
     if (!email || !password || !firstname || !lastname || !gender || !city) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const user = await User.findByPk(id);
@@ -97,7 +103,10 @@ router.put("/:id", async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -118,7 +127,10 @@ router.delete("/:id", verifyIsAdmin, async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 
@@ -134,7 +146,7 @@ router.post("/:id/admin", verifyIsAdmin, async function (req, res) {
     }
 
     if ((user.isAdmin = true)) {
-      return res.status(403).json({ message: "User already admin" });
+      return res.status(403).json({ message: "User is already an admin" });
     }
 
     user.isAdmin = true;
@@ -144,7 +156,10 @@ router.post("/:id/admin", verifyIsAdmin, async function (req, res) {
     console.error(error);
     return res
       .status(500)
-      .json({ message: "Unexpected error occurred", error: error.message });
+      .json({
+        message: "An An unexpected error occurred",
+        error: error.message,
+      });
   }
 });
 

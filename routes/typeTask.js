@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
     });
 
     if (typeTasks.length === 0) {
-      return res.status(404).json({ error: "No type tasks as been found" });
+      return res.status(404).json({ error: "No task types found" });
     }
 
     res
@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur lors de la récupération des types de tâches",
+      message: "Error fetching task types",
       error,
     });
   }

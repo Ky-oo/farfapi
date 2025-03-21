@@ -18,13 +18,13 @@ router.get("/", async (req, res) => {
     });
 
     if (expenses.length === 0) {
-      return res.status(404).json({ error: "No expenses as been found" });
+      return res.status(404).json({ error: "No expenses found" });
     }
 
     res.status(200).json({ data: expenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to fetch expenses" });
+    res.status(500).json({ error: "Failed to retrieve expenses" });
   }
 });
 
@@ -61,13 +61,13 @@ router.get("/user/:id", async (req, res) => {
     });
 
     if (!expenses) {
-      return res.status(404).json({ error: "No expenses as been found" });
+      return res.status(404).json({ error: "No expenses found" });
     }
 
     res.status(200).json({ data: expenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to fetch expenses" });
+    res.status(500).json({ error: "Failed to retrieve expenses" });
   }
 });
 
@@ -78,7 +78,7 @@ router.post("/", async (req, res) => {
       req.body;
 
     if (!cost || !name || !date) {
-      return res.status(400).json({ error: "Missing required information" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const newExpense = await Expense.create({
@@ -105,7 +105,7 @@ router.put("/:id", async (req, res) => {
       req.body;
 
     if (!cost || !name || !date) {
-      return res.status(400).json({ error: "Missing required information" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const updatedExpense = await Expense.findByPk(id);
@@ -141,7 +141,7 @@ router.delete("/:id", async (req, res) => {
 
     deletedExpense.destroy();
 
-    res.status(200).json({ message: "Expense deleted successfully" });
+    res.status(204).json({ message: "Expense deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to delete expense" });

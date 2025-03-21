@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
     });
 
     if (!subscriptions) {
-      return res.status(404).json({ error: "No subscriptions as been found" });
+      return res.status(404).json({ error: "No subscriptions found" });
     }
 
     res
@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
       .json({ data: subscriptions, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error retrieving subscriptions", error });
+    res.status(500).json({ message: "Error fetching subscriptions", error });
   }
 });
 
@@ -74,7 +74,7 @@ router.get("/user/:id", async (req, res) => {
       .json({ data: subscriptions, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error retrieving subscriptions", error });
+    res.status(500).json({ message: "Error fetching subscriptions", error });
   }
 });
 
@@ -85,7 +85,7 @@ router.post("/", async (req, res) => {
       req.body;
 
     if (!subscriptionDate || !endSubscriptionDate || !isActive) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const newSubscription = await Subscription.create({
@@ -109,7 +109,7 @@ router.put("/:id", async (req, res) => {
       req.body;
 
     if (!subscriptionDate || !endSubscriptionDate || !isActive) {
-      return res.status(400).json({ message: "Missing required information" });
+      return res.status(400).json({ message: "Required fields are missing" });
     }
 
     const subscription = await Subscription.findByPk(id);
