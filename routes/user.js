@@ -49,7 +49,7 @@ router.put("/:id", async function (req, res) {
     }
 
     user.email = email;
-    user.password = password;
+    user.password = await bcrypt.hash(password, 10);
     user.isAdmin = isAdmin || false;
     user.firstname = firstname;
     user.lastname = lastname;

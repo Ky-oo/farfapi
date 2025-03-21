@@ -8,7 +8,8 @@ dotenv.config();
 // Load ORM
 require("./model");
 
-// Initialize routers
+// Initialize router
+var authRouter = require("./routes/auth");
 var userRouter = require("./routes/user");
 var expenseRouter = require("./routes/expense");
 var monthlyExpenseRouter = require("./routes/monthlyExpenses");
@@ -19,6 +20,9 @@ var taskRouter = require("./routes/task");
 var typeExpenseRouter = require("./routes/typeExpenses");
 var typeTaskRouter = require("./routes/typeTask");
 
+// Initialize JWT verification middleware
+var verifyToken = require("./middleware/verify_jwt_token");
+
 // Initialize Express app
 var app = express();
 
@@ -27,6 +31,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Define routes
+app.use("/auth", authRouter);
+
+// Middleware to verify JWT token
+app.use(verifyToken);
+
+// Accessible only authenticated
 app.use("/user", userRouter);
 app.use("/expense", expenseRouter);
 app.use("/monthly_expense", monthlyExpenseRouter);
