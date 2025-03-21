@@ -9,7 +9,9 @@ router.get("/", async function (req, res) {
     return res.status(200).json(monthlyExpenses);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Server error", error });
+    return res
+      .status(500)
+      .json({ message: "Unexpected error occurred", error: error.message });
   }
 });
 
@@ -27,7 +29,9 @@ router.get("/:id", async function (req, res) {
     res.status(200).json(monthlyExpense);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    return res
+      .status(500)
+      .json({ message: "Unexpected error occurred", error: error.message });
   }
 });
 
@@ -47,7 +51,9 @@ router.get("/user/:id", async function (req, res) {
     res.status(200).json(user.MonthlyExpenses);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    return res
+      .status(500)
+      .json({ message: "Unexpected error occurred", error: error.message });
   }
 });
 
@@ -63,7 +69,9 @@ router.get("/byMonthYear", async function (req, res) {
     res.status(200).json(monthlyExpenses);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    return res
+      .status(500)
+      .json({ message: "Unexpected error occurred", error: error.message });
   }
 });
 
@@ -86,7 +94,9 @@ router.post("/", async function (req, res) {
     res.status(201).json(monthlyExpense);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    return res
+      .status(500)
+      .json({ message: "Unexpected error occurred", error: error.message });
   }
 });
 
@@ -116,7 +126,9 @@ router.put("/:id", async function (req, res) {
     res.status(200).json(updatedMonthlyExpense);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    return res
+      .status(500)
+      .json({ message: "Unexpected error occurred", error: error.message });
   }
 });
 
@@ -132,10 +144,12 @@ router.delete("/:id", async function (req, res) {
     }
 
     monthlyExpense.destroy();
-    res.status(204).end();
+    res.status(204).json({ message: "Monthly expense deleted" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    return res
+      .status(500)
+      .json({ message: "Unexpected error occurred", error: error.message });
   }
 });
 

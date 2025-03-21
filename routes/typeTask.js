@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { TypeTasks } = require("../model");
 
-// Route pour récupérer tous les types de tâches
+// Route to get all type of tasks
 router.get("/", async (req, res) => {
   try {
     const typeTasks = await TypeTasks.findAll();
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Route pour récupérer un type de tâche par ID
+// Route to get a single type of task by ID
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Route pour créer un nouveau type de tâche
+// Route to create a new type of task
 router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Route pour mettre à jour un type de tâche par ID
+// Route to update a type of task by ID
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -84,7 +84,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Route pour supprimer un type de tâche par ID
+// Route to delete a type of task by ID
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -96,7 +96,7 @@ router.delete("/:id", async (req, res) => {
     }
 
     await typeTask.destroy();
-    res.status(204).end();
+    res.status(204).json({ message: "Type de tâche supprimé" });
   } catch (error) {
     console.error(error);
     res.status(500).json({

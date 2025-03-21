@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { Task } = require("../model");
 
-// Route pour récupérer toutes les tâches
+// Route to get all tasks
 router.get("/", async (req, res) => {
   try {
     const tasks = await Task.findAll();
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Route pour récupérer une tâche par ID
+// Route to get a single task by ID
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -34,7 +34,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Route pour récupérer toutes les tâches par UserId
+// Route to get all tasks by UserId
 router.get("/user/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -53,7 +53,7 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
-// Route pour créer une nouvelle tâche
+// Route to create a new task
 router.post("/", async (req, res) => {
   try {
     const { name, description, status, date, UserId, typeTaskId } = req.body;
@@ -80,7 +80,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Route pour mettre à jour une tâche par ID
+// Route to update a task by ID
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -114,7 +114,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Route pour supprimer une tâche par ID
+// Route to delete a task by ID
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -126,7 +126,7 @@ router.delete("/:id", async (req, res) => {
     }
 
     await task.destroy();
-    res.status(204).end();
+    res.status(204).json({ message: "Tâche supprimée" });
   } catch (error) {
     console.error(error);
     res

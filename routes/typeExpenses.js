@@ -88,7 +88,7 @@ router.delete("/:id", verifyIsAdmin, async (req, res) => {
     }
 
     await typeExpense.destroy();
-    res.status(204).end();
+    res.status(204).json({ message: "Expense type deleted" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error deleting the expense type", error });

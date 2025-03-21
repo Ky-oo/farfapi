@@ -116,7 +116,7 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
     }
 
     await post.destroy();
-    res.status(204).end();
+    res.status(204).json({ message: "Post deleted" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error deleting the post", error });

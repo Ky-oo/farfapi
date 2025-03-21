@@ -114,7 +114,7 @@ router.delete("/:id", async (req, res) => {
     }
 
     await subscription.destroy();
-    res.status(204).end();
+    res.status(204).json({ message: "Subscription deleted" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error deleting the subscription", error });
