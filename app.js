@@ -21,7 +21,7 @@ var typeExpenseRouter = require("./routes/typeExpenses");
 var typeTaskRouter = require("./routes/typeTask");
 
 // Initialize JWT verification middleware
-var verifyToken = require("./middleware/verify_jwt_token");
+var verifyToken = require("./middleware/verifyJwtToken");
 
 // Initialize Express app
 var app = express();

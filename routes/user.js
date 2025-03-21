@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const verifyIsAdmin = require("../middleware/verifyIsAdmin");
 const { User } = require("../model");
 
 // Route to get a list of all users
@@ -77,6 +78,26 @@ router.delete("/:id", async function (req, res) {
 
     user.destroy();
     res.status(204).json();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Route to give admin rights to a user
+router.post("/:id/admin", verifyIsAdmin, async function (req, res) {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.isAdmin = true;
+    user.save();
+    res.status(200).json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error });

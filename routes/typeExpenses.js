@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const { TypeExpenses } = require("../model");
-const verifyIsAdmin = require("../middleware/verify_is_admin");
+const verifyIsAdmin = require("../middleware/verifyIsAdmin");
 
 // Route to get all expense types
 router.get("/", async (req, res) => {

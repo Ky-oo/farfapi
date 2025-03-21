@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const verifyAdmin = require("../middleware/verify_is_admin");
+const verifyAdmin = require("../middleware/verifyIsAdmin");
 const { Post } = require("../model");
 
 // Route to get all posts
