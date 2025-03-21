@@ -8,26 +8,21 @@ const jwt = require("jsonwebtoken");
 // Proceeds to the next middleware if the user is an admin if the token is good
 
 function verifyToken(req, res, next) {
-  if (req.headers.authorization) {
-    const token = req.headers.authorization.split(" ")[1];
-    jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, payload) => {
-      if (err) {
-        res.status(401);
-        if (err.name === "TokenExpiredError") {
-          res.json({ message: "Token expired" });
-          $;
-        } else {
-          res.json({ message: "Token invalid" });
-        }
-        return;
-      } else {
-        req.user_id = payload.id;
-        next();
-      }
-    });
-  } else {
-    res.status(401);
-    res.json({ message: "Token required" });
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Token required" });
   }
+
+  jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, payload) => {
+    if (err) {
+      return res.status(401).json({
+        message:
+          err.name === "TokenExpiredError" ? "Token expired" : "Token invalid",
+      });
+    }
+    req.user_id = payload.id;
+    next();
+  });
 }
+
 module.exports = verifyToken;
