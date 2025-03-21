@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const verifyIsAdmin = require("../middleware/verifyIsAdmin");
 const { TypeTasks } = require("../model");
 
 // Route to get all type of tasks
@@ -37,7 +38,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Route to create a new type of task
-router.post("/", async (req, res) => {
+router.post("/", verifyAdmin, async (req, res) => {
   try {
     const { name } = req.body;
 
@@ -56,7 +57,7 @@ router.post("/", async (req, res) => {
 });
 
 // Route to update a type of task by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
@@ -85,7 +86,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Route to delete a type of task by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 
