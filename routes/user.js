@@ -84,7 +84,7 @@ router.put("/:id", async function (req, res) {
     }
 
     user.email = email;
-    user.password = await bcrypt.hash(password, 10);
+    user.password = password;
     user.isAdmin = isAdmin || false;
     user.firstname = firstname;
     user.lastname = lastname;
