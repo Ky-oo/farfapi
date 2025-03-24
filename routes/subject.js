@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
     res.status(200).json({ data: subjects, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error retrieving subjects", error });
+    res.status(500).json({ error: "Error retrieving subjects", error });
   }
 });
 
@@ -36,13 +36,13 @@ router.get("/:id", async (req, res) => {
     const subject = await Subject.findByPk(id);
 
     if (!subject) {
-      return res.status(404).json({ message: "Subject not found" });
+      return res.status(404).json({ error: "Subject not found" });
     }
 
     res.status(200).json(subject);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error retrieving the subject", error });
+    res.status(500).json({ error: "Error retrieving the subject", error });
   }
 });
 
@@ -59,7 +59,7 @@ router.post("/", verifyAdmin, async (req, res) => {
     res.status(201).json(newSubject);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error creating the subject", error });
+    res.status(500).json({ error: "Error creating the subject", error });
   }
 });
 
@@ -72,7 +72,7 @@ router.put("/:id", verifyAdmin, async (req, res) => {
     const subject = await Subject.findByPk(id);
 
     if (!subject) {
-      return res.status(404).json({ message: "Subject not found" });
+      return res.status(404).json({ error: "Subject not found" });
     }
 
     subject.name = name;
@@ -82,7 +82,7 @@ router.put("/:id", verifyAdmin, async (req, res) => {
     res.status(200).json(subject);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error updating the subject", error });
+    res.status(500).json({ error: "Error updating the subject", error });
   }
 });
 
@@ -94,14 +94,14 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
     const subject = await Subject.findByPk(id);
 
     if (!subject) {
-      return res.status(404).json({ message: "Subject not found" });
+      return res.status(404).json({ error: "Subject not found" });
     }
 
     await subject.destroy();
     res.status(204).end();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error deleting the subject", error });
+    res.status(500).json({ error: "Error deleting the subject", error });
   }
 });
 

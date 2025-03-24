@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
       .json({ data: subscriptions, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching subscriptions", error });
+    res.status(500).json({ error: "Error fetching subscriptions", error });
   }
 });
 
@@ -37,15 +37,13 @@ router.get("/:id", async (req, res) => {
     const subscription = await Subscription.findByPk(id);
 
     if (!subscription) {
-      return res.status(404).json({ message: "Subscription not found" });
+      return res.status(404).json({ error: "Subscription not found" });
     }
 
     res.status(200).json(subscription);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Error retrieving the subscription", error });
+    res.status(500).json({ error: "Error retrieving the subscription", error });
   }
 });
 
@@ -66,7 +64,7 @@ router.get("/user/:id", async (req, res) => {
     });
 
     if (!subscriptions) {
-      return res.status(404).json({ message: "Subscriptions not found" });
+      return res.status(404).json({ error: "Subscriptions not found" });
     }
 
     res
@@ -74,7 +72,7 @@ router.get("/user/:id", async (req, res) => {
       .json({ data: subscriptions, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching subscriptions", error });
+    res.status(500).json({ error: "Error fetching subscriptions", error });
   }
 });
 
@@ -85,7 +83,7 @@ router.post("/", async (req, res) => {
       req.body;
 
     if (!subscriptionDate || !endSubscriptionDate || !isActive) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const newSubscription = await Subscription.create({
@@ -97,7 +95,7 @@ router.post("/", async (req, res) => {
     res.status(201).json(newSubscription);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error creating the subscription", error });
+    res.status(500).json({ error: "Error creating the subscription", error });
   }
 });
 
@@ -109,13 +107,13 @@ router.put("/:id", async (req, res) => {
       req.body;
 
     if (!subscriptionDate || !endSubscriptionDate || !isActive) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const subscription = await Subscription.findByPk(id);
 
     if (!subscription) {
-      return res.status(404).json({ message: "Subscription not found" });
+      return res.status(404).json({ error: "Subscription not found" });
     }
 
     subscription.UserId = UserId || subscription.UserId;
@@ -127,7 +125,7 @@ router.put("/:id", async (req, res) => {
     res.status(200).json(subscription);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error updating the subscription", error });
+    res.status(500).json({ error: "Error updating the subscription", error });
   }
 });
 
@@ -139,14 +137,14 @@ router.delete("/:id", async (req, res) => {
     const subscription = await Subscription.findByPk(id);
 
     if (!subscription) {
-      return res.status(404).json({ message: "Subscription not found" });
+      return res.status(404).json({ error: "Subscription not found" });
     }
 
     await subscription.destroy();
     res.status(204).end();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error deleting the subscription", error });
+    res.status(500).json({ error: "Error deleting the subscription", error });
   }
 });
 

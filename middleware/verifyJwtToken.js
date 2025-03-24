@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 function verifyToken(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "Authorization token is required" });
+    return res.status(401).json({ error: "Authorization token is required" });
   }
 
   jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, payload) => {

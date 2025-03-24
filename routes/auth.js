@@ -12,7 +12,7 @@ router.post("/signup", async (req, res) => {
   if (!email || !password || !firstname || !lastname || !gender || !city) {
     res.status(400);
     res.json({
-      message:
+      error:
         "Email, password, firstname, lastname, gender and city are required",
     });
     return;
@@ -20,7 +20,7 @@ router.post("/signup", async (req, res) => {
 
   if (await User.findOne({ where: { email: email } })) {
     res.status(400);
-    res.json({ message: "Email already exists" });
+    res.json({ error: "Email already exists" });
     return;
   }
 
@@ -40,7 +40,7 @@ router.post("/signup", async (req, res) => {
     await user.validate({ fields: ["email"] });
   } catch (error) {
     res.status(500);
-    res.json({ message: error });
+    res.json({ error: error });
     return;
   }
 
@@ -51,7 +51,7 @@ router.post("/signup", async (req, res) => {
   } catch (error) {
     res.status(500);
     console.error(error);
-    res.json({ message: "Unexpected error" });
+    res.json({ error: "Unexpected error" });
     return;
   }
 
@@ -83,15 +83,14 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     res.status(400);
-    res.json({ message: "Email and password are required" });
+    res.json({ error: "Email and password are required" });
     return;
   }
 
   // Find user
   const user = await User.findOne({ where: { email: email } });
   if (!user) {
-    res.status(404);
-    res.json({ message: " Invalid email or password" });
+    res.status(404).json({ error: " Invalid email or password" });
     return;
   }
 
@@ -100,7 +99,7 @@ router.post("/login", async (req, res) => {
 
   try {
     if (!passwordOk) {
-      res.status(404).json({ message: "Invalid email or password" });
+      res.status(404).json({ error: "Invalid email or password" });
       return;
     }
 
@@ -119,11 +118,11 @@ router.post("/login", async (req, res) => {
       res.json({ token, is_admin: user.is_admin });
     } catch (error) {
       console.error("JWT Error:", error);
-      res.status(500).json({ message: "Error generating token" });
+      res.status(500).json({ error: "Error generating token" });
     }
   } catch (error) {
     console.error("Error comparing passwords:", error);
-    res.status(500).json({ message: "Error comparing passwords" });
+    res.status(500).json({ error: "Error comparing passwords" });
   }
 });
 

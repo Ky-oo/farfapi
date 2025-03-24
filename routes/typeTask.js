@@ -41,14 +41,14 @@ router.get("/:id", async (req, res) => {
     const typeTask = await TypeTasks.findByPk(id);
 
     if (!typeTask) {
-      return res.status(404).json({ message: "Type de tâche non trouvé" });
+      return res.status(404).json({ error: "Type task not found" });
     }
 
     res.status(200).json(typeTask);
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur lors de la récupération du type de tâche",
+      message: "Error on rereiving type task",
       error,
     });
   }
@@ -60,7 +60,7 @@ router.post("/", verifyIsAdmin, async (req, res) => {
     const { name } = req.body;
 
     if (!name) {
-      return res.status(400).json({ message: "Informations manquantes" });
+      return res.status(400).json({ error: "Missing informations" });
     }
 
     const newTypeTask = await TypeTasks.create({ name });
@@ -69,7 +69,7 @@ router.post("/", verifyIsAdmin, async (req, res) => {
     console.error(error);
     res
       .status(500)
-      .json({ message: "Erreur lors de la création du type de tâche", error });
+      .json({ error: "Error at the creation of the task type ", error });
   }
 });
 
@@ -80,13 +80,13 @@ router.put("/:id", verifyIsAdmin, async (req, res) => {
     const { name } = req.body;
 
     if (!name) {
-      return res.status(400).json({ message: "Informations manquantes" });
+      return res.status(400).json({ error: "Missing informations" });
     }
 
     const typeTask = await TypeTasks.findByPk(id);
 
     if (!typeTask) {
-      return res.status(404).json({ message: "Type de tâche non trouvé" });
+      return res.status(404).json({ error: "Type task not found" });
     }
 
     typeTask.name = name;
@@ -96,7 +96,7 @@ router.put("/:id", verifyIsAdmin, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur lors de la mise à jour du type de tâche",
+      message: "Error at the update of type task",
       error,
     });
   }
@@ -110,7 +110,7 @@ router.delete("/:id", verifyIsAdmin, async (req, res) => {
     const typeTask = await TypeTasks.findByPk(id);
 
     if (!typeTask) {
-      return res.status(404).json({ message: "Type de tâche non trouvé" });
+      return res.status(404).json({ error: "Type task not found" });
     }
 
     await typeTask.destroy();
@@ -118,7 +118,7 @@ router.delete("/:id", verifyIsAdmin, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur lors de la suppression du type de tâche",
+      message: "",
       error,
     });
   }

@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
     res.status(200).json({ data: tasks, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching tasks", error });
+    res.status(500).json({ error: "Error fetching tasks", error });
   }
 });
 
@@ -35,13 +35,13 @@ router.get("/:id", async (req, res) => {
     const task = await Task.findByPk(id);
 
     if (!task) {
-      return res.status(404).json({ message: "Task not found" });
+      return res.status(404).json({ error: "Task not found" });
     }
 
     res.status(200).json(task);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error while retrieving the task", error });
+    res.status(500).json({ error: "Error while retrieving the task", error });
   }
 });
 
@@ -68,7 +68,7 @@ router.get("/user/:id", async (req, res) => {
     res.status(200).json({ data: tasks, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching tasks", error });
+    res.status(500).json({ error: "Error fetching tasks", error });
   }
 });
 
@@ -78,7 +78,7 @@ router.post("/", async (req, res) => {
     const { name, description, status, date, UserId, typeTaskId } = req.body;
 
     if (!name || !status || !date) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const newTask = await Task.create({
@@ -93,7 +93,7 @@ router.post("/", async (req, res) => {
     res.status(201).json(newTask);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error while creating the task", error });
+    res.status(500).json({ error: "Error while creating the task", error });
   }
 });
 
@@ -104,13 +104,13 @@ router.put("/:id", async (req, res) => {
     const { name, description, status, date, UserId, typeTaskId } = req.body;
 
     if (!name || !status || !date) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const task = await Task.findByPk(id);
 
     if (!task) {
-      return res.status(404).json({ message: "Task not found" });
+      return res.status(404).json({ error: "Task not found" });
     }
 
     task.name = name;
@@ -125,7 +125,7 @@ router.put("/:id", async (req, res) => {
     res.status(200).json(task);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error while updating the task", error });
+    res.status(500).json({ error: "Error while updating the task", error });
   }
 });
 
@@ -137,14 +137,14 @@ router.delete("/:id", async (req, res) => {
     const task = await Task.findByPk(id);
 
     if (!task) {
-      return res.status(404).json({ message: "Task not found" });
+      return res.status(404).json({ error: "Task not found" });
     }
 
     await task.destroy();
     res.status(204).end();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error while deleting the task", error });
+    res.status(500).json({ error: "Error while deleting the task", error });
   }
 });
 

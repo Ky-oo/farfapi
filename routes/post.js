@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
     res.status(200).json({ data: posts, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching posts", error });
+    res.status(500).json({ error: "Error fetching posts", error });
   }
 });
 
@@ -36,13 +36,13 @@ router.get("/:id", async (req, res) => {
     const post = await Post.findByPk(id);
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ error: "Post not found" });
     }
 
     res.status(200).json(post);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error retrieving the post", error });
+    res.status(500).json({ error: "Error retrieving the post", error });
   }
 });
 
@@ -60,7 +60,7 @@ router.post("/", verifyAdmin, async (req, res) => {
     } = req.body;
 
     if (!title || !description || !content) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const newPost = await Post.create({
@@ -75,7 +75,7 @@ router.post("/", verifyAdmin, async (req, res) => {
     res.status(201).json(newPost);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error creating the post", error });
+    res.status(500).json({ error: "Error creating the post", error });
   }
 });
 
@@ -94,13 +94,13 @@ router.put("/:id", verifyAdmin, async (req, res) => {
     } = req.body;
 
     if (!title || !description || !content) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const post = await Post.findByPk(id);
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ error: "Post not found" });
     }
 
     post.title = title;
@@ -115,7 +115,7 @@ router.put("/:id", verifyAdmin, async (req, res) => {
     res.status(200).json(post);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error updating the post", error });
+    res.status(500).json({ error: "Error updating the post", error });
   }
 });
 
@@ -127,14 +127,14 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
     const post = await Post.findByPk(id);
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ error: "Post not found" });
     }
 
     await post.destroy();
     res.status(204).end();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error deleting the post", error });
+    res.status(500).json({ error: "Error deleting the post", error });
   }
 });
 

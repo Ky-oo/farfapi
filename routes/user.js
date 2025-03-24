@@ -44,7 +44,7 @@ router.get("/:id", async function (req, res) {
     const user = await User.findByPk(id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.status(200).json(user);
@@ -65,24 +65,24 @@ router.put("/:id", async function (req, res) {
       req.body;
 
     if (!email || !password || !firstname || !lastname || !gender || !city) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const user = await User.findByPk(id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     if (!(await user.validate({ fields: ["email"] }))) {
-      return res.status(400).json({ message: "Invalid email" });
+      return res.status(400).json({ error: "Invalid email" });
     }
 
     const existingUser = await User.findOne({
       where: { email, id: { [Op.ne]: id } },
     });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
+      return res.status(400).json({ error: "Email already in use" });
     }
 
     user.email = email;
@@ -112,7 +112,7 @@ router.delete("/:id", verifyIsAdmin, async function (req, res) {
     const user = await User.findByPk(id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     user.destroy();
@@ -134,11 +134,11 @@ router.post("/:id/admin", verifyIsAdmin, async function (req, res) {
     const user = await User.findByPk(id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     if ((user.isAdmin = true)) {
-      return res.status(403).json({ message: "User is already an admin" });
+      return res.status(403).json({ error: "User is already an admin" });
     }
 
     user.isAdmin = true;

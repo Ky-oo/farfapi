@@ -41,7 +41,7 @@ router.get("/:id", async function (req, res) {
     const monthlyExpense = await MonthlyExpenses.findByPk(id);
 
     if (!monthlyExpense) {
-      return res.status(404).json({ message: "Monthly expense not found" });
+      return res.status(404).json({ error: "Monthly expense not found" });
     }
 
     res.status(200).json(monthlyExpense);
@@ -64,13 +64,13 @@ router.get("/user/:id", async function (req, res) {
     });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     if (user.MonthlyExpenses.length === 0) {
       return res
         .status(404)
-        .json({ message: "No monthly expenses found for this user" });
+        .json({ error: "No monthly expenses found for this user" });
     }
 
     res.status(200).json(user.MonthlyExpenses);
@@ -118,7 +118,7 @@ router.post("/", async function (req, res) {
     const { monthName, year, max_expense, UserId } = req.body;
 
     if (!monthName || !year || !max_expense) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const monthlyExpense = await MonthlyExpenses.create({
@@ -145,13 +145,13 @@ router.put("/:id", async function (req, res) {
     const { monthName, year, max_expense, UserId } = req.body;
 
     if (!monthName || !year || !max_expense) {
-      return res.status(400).json({ message: "Required fields are missing" });
+      return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const updatedMonthlyExpense = await MonthlyExpenses.findByPk(id);
 
     if (!updatedMonthlyExpense) {
-      return res.status(404).json({ message: "Monthly expense not found" });
+      return res.status(404).json({ error: "Monthly expense not found" });
     }
 
     updatedMonthlyExpense.monthName = monthName;
@@ -179,7 +179,7 @@ router.delete("/:id", async function (req, res) {
     const monthlyExpense = await MonthlyExpenses.findByPk(id);
 
     if (!monthlyExpense) {
-      return res.status(404).json({ message: "Monthly expense not found" });
+      return res.status(404).json({ error: "Monthly expense not found" });
     }
 
     monthlyExpense.destroy();

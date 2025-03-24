@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
       .json({ data: typeExpenses, totalPages: pagination.totalPages });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching expense types", error });
+    res.status(500).json({ error: "Error fetching expense types", error });
   }
 });
 
@@ -44,9 +44,7 @@ router.get("/:id", async (req, res) => {
     res.status(200).json(typeExpense);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Error retrieving the expense type", error });
+    res.status(500).json({ error: "Error retrieving the expense type", error });
   }
 });
 
@@ -63,7 +61,7 @@ router.post("/", verifyIsAdmin, async (req, res) => {
     res.status(201).json(newTypeExpense);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error creating the expense type", error });
+    res.status(500).json({ error: "Error creating the expense type", error });
   }
 });
 
@@ -89,7 +87,7 @@ router.put("/:id", verifyIsAdmin, async (req, res) => {
     res.status(200).json(typeExpense);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error updating the expense type", error });
+    res.status(500).json({ error: "Error updating the expense type", error });
   }
 });
 
@@ -108,7 +106,7 @@ router.delete("/:id", verifyIsAdmin, async (req, res) => {
     res.status(204).end();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error deleting the expense type", error });
+    res.status(500).json({ error: "Error deleting the expense type", error });
   }
 });
 
