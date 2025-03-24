@@ -38,7 +38,7 @@ router.get("/:id", async (req, res) => {
     const typeExpense = await TypeExpenses.findByPk(id);
 
     if (!typeExpense) {
-      return res.status(404).json({ message: "Expense type not found" });
+      return res.status(404).json({ error: "Expense type not found" });
     }
 
     res.status(200).json(typeExpense);
@@ -56,7 +56,7 @@ router.post("/", verifyIsAdmin, async (req, res) => {
     if (!name) {
       return res.status(400).json({ message: "Required fields are missing" });
     }
-
+.json({ error: 
     const newTypeExpense = await TypeExpenses.create({ name });
     res.status(201).json(newTypeExpense);
   } catch (error) {
@@ -74,13 +74,13 @@ router.put("/:id", verifyIsAdmin, async (req, res) => {
     if (!name) {
       return res.status(400).json({ message: "Required fields are missing" });
     }
-
+.json({ error: 
     const typeExpense = await TypeExpenses.findByPk(id);
 
     if (!typeExpense) {
       return res.status(404).json({ message: "Expense type not found" });
     }
-
+.json({ error: 
     typeExpense.name = name;
     await typeExpense.save();
 
@@ -101,7 +101,7 @@ router.delete("/:id", verifyIsAdmin, async (req, res) => {
     if (!typeExpense) {
       return res.status(404).json({ message: "Expense type not found" });
     }
-
+.json({ error: 
     await typeExpense.destroy();
     res.status(204).end();
   } catch (error) {
