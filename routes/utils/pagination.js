@@ -4,7 +4,7 @@ async function handlePagination(req, model) {
   const nbDisplayed = parseInt(req.query.pagination);
   const pages = parseInt(req.query.pages) - 1 || 0;
 
-  const quantity = await model.count();
+  let quantity = await model.count();
   quantity = quantity === 0 ? 1 : quantity;
 
   if (!nbDisplayed || isNaN(nbDisplayed) || nbDisplayed < 1) {
