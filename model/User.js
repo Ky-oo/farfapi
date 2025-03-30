@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const User = sequelize.define("User", {
   email: {
     type: DataTypes.STRING(255),
+    unique: true,
     validate: {
       isEmail: true,
     },
