@@ -5,7 +5,7 @@ async function handlePagination(req, model) {
   const pages = parseInt(req.query.pages) - 1 || 0;
 
   const quantity = await model.count();
-  if (quantity === 0) return { error: "Collection is empty" };
+  quantity = quantity === 0 ? 1 : quantity;
 
   if (!nbDisplayed || isNaN(nbDisplayed) || nbDisplayed < 1) {
     return { error: "Pagination must be a valid number greater than 0" };
