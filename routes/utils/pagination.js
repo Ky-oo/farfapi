@@ -2,18 +2,15 @@ const { Op } = require("sequelize");
 
 async function handlePagination(req, model) {
   let nbDisplayed = parseInt(req.query.pagination);
-  let pages = parseInt(req.query.pages) - 1 || 0;
+  let pages = parseInt(req.query.pages) - 1 || 1;
 
   let quantity = await model.count();
   quantity = quantity === 0 ? 1 : quantity;
 
   if (!nbDisplayed || isNaN(nbDisplayed) || nbDisplayed < 1) {
-    nbDisplayed = 1;
+    nbDisplayed = 10;
   }
 
-  if (pages < 0) {
-    page = 1;
-  }
   const totalPages = Math.ceil(quantity / nbDisplayed);
   if (pages >= totalPages) {
     return { error: `Page not found, max page is ${totalPages}` };
