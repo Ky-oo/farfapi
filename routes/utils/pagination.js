@@ -12,7 +12,7 @@ async function handlePagination(req, model) {
   }
 
   const totalPages = Math.ceil(quantity / nbDisplayed);
-  if (pages >= totalPages) {
+  if (pages > totalPages) {
     return { error: `Page not found, max page is ${totalPages}` };
   }
 
