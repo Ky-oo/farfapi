@@ -97,33 +97,38 @@ router.get("/user/:id/:year/:month", async (req, res) => {
     });
 
     if (!monthlyExpense) {
-    monthlyExpense = await MonthlyExpense.create({
-      UserId: id,
-      year: year,
-      month: month,
-    });
+      monthlyExpense = await MonthlyExpense.create({
+        UserId: id,
+        year: year,
+        month: month,
+      });
     }
 
     const expenses = await Expense.findAll({
       where: {
-      MonthlyExpenseId: monthlyExpense.id,
+        MonthlyExpenseId: monthlyExpense.id,
       },
       limit: pagination.limit,
       offset: pagination.offset,
     });
 
     if (expenses.length === 0) {
-      return res.status(404).json({ error: "No expenses found for this monthly expense" });
+      return res
+        .status(404)
+        .json({ error: "No expenses found for this monthly expense" });
     }
 
     res.status(200).json({ data: expenses, totalPages: pagination.totalPages });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve expenses" });
+  }
 });
 
 // Route to create a new expense
 router.post("/", async (req, res) => {
   try {
-    const { cost, name, date, month, year, TypeExpenseId, UserId } =
-      req.body;
+    const { cost, name, date, month, year, TypeExpenseId, UserId } = req.body;
 
     if (!cost || !name || !date || !month || !year) {
       return res.status(400).json({ error: "Required fields are missing" });
