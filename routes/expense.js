@@ -87,7 +87,7 @@ router.get("/user/:id/:year/:month", async (req, res) => {
       return res.status(401).json({ error: pagination.error });
     }
 
-    let monthlyExpense = await MonthlyExpense.findOne({
+    let monthlyExpense = await MonthlyExpenses.findOne({
       where: {
         UserId: id,
         year: year,
@@ -105,7 +105,7 @@ router.get("/user/:id/:year/:month", async (req, res) => {
 
     const expenses = await Expense.findAll({
       where: {
-        MonthlyExpenseId: monthlyExpense.id,
+        MonthlyExpenseId: MonthlyExpenses.id,
       },
       limit: pagination.limit,
       offset: pagination.offset,
@@ -133,7 +133,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Required fields are missing" });
     }
 
-    let monthlyExpense = await MonthlyExpense.findOne({
+    let monthlyExpense = await MonthlyExpenses.findOne({
       where: {
         UserId,
         year,
@@ -142,7 +142,7 @@ router.post("/", async (req, res) => {
     });
 
     if (!monthlyExpense) {
-      monthlyExpense = await MonthlyExpense.create({
+      monthlyExpense = await MonthlyExpenses.create({
         UserId,
         year,
         month,
