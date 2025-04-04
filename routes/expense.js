@@ -100,6 +100,7 @@ router.get("/user/:id/:year/:month", async (req, res) => {
         UserId: id,
         year: year,
         month: month,
+        max_expense: 0,
       });
     }
 
@@ -146,6 +147,7 @@ router.post("/", async (req, res) => {
         UserId,
         year,
         month,
+        max_expense: 0,
       });
     }
 
