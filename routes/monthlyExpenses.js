@@ -115,14 +115,14 @@ router.get("/byMonthYear", async function (req, res) {
 // Route to create a new monthly expense
 router.post("/", async function (req, res) {
   try {
-    const { monthName, year, max_expense, UserId } = req.body;
+    const { month, year, max_expense, UserId } = req.body;
 
-    if (!monthName || !year || !max_expense) {
+    if (!month || !year || !max_expense) {
       return res.status(400).json({ error: "Required fields are missing" });
     }
 
     const monthlyExpense = await MonthlyExpenses.create({
-      monthName,
+      month,
       year,
       max_expense,
       UserId,
@@ -142,9 +142,9 @@ router.post("/", async function (req, res) {
 router.put("/:id", async function (req, res) {
   try {
     const { id } = req.params;
-    const { monthName, year, max_expense, UserId } = req.body;
+    const { month, year, max_expense, UserId } = req.body;
 
-    if (!monthName || !year || !max_expense) {
+    if (!month || !year || !max_expense) {
       return res.status(400).json({ error: "Required fields are missing" });
     }
 
@@ -154,7 +154,7 @@ router.put("/:id", async function (req, res) {
       return res.status(404).json({ error: "Monthly expense not found" });
     }
 
-    updatedMonthlyExpense.monthName = monthName;
+    updatedMonthlyExpense.month = month;
     updatedMonthlyExpense.year = year;
     updatedMonthlyExpense.max_expense = max_expense;
     updatedMonthlyExpense.UserId = UserId || updatedMonthlyExpense.UserId;
