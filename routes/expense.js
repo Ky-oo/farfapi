@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { Expense } = require("../model");
 const handlePagination = require("./utils/pagination");
+const { MonthlyExpense } = require("../model");
 
 // Route to get a list of all expenses
 router.get("/", async (req, res) => {
@@ -71,15 +72,80 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
+// Route to get all expenses by UserId, year, and month
+router.get("/user/:id/:year/:month", async (req, res) => {
+  try {
+    const { id, year, month } = req.params;
+
+    // Validation des paramètres
+    if (!year || !month || isNaN(year) || isNaN(month)) {
+      return res.status(400).json({ error: "Invalid year or month" });
+    }
+
+    const pagination = await handlePagination(req, Expense);
+
+    if (pagination.error) {
+      return res.status(401).json({ error: pagination.error });
+    }
+
+    let monthlyExpense = await MonthlyExpense.findOne({
+      where: {
+        UserId: id,
+        year: year,
+        month: month,
+      },
+    });
+
+    if (!monthlyExpense) {
+    monthlyExpense = await MonthlyExpense.create({
+      UserId: id,
+      year: year,
+      month: month,
+    });
+    }
+
+    const expenses = await Expense.findAll({
+      where: {
+      MonthlyExpenseId: monthlyExpense.id,
+      },
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
+
+    if (expenses.length === 0) {
+      return res.status(404).json({ error: "No expenses found for this monthly expense" });
+    }
+
+    res.status(200).json({ data: expenses, totalPages: pagination.totalPages });
+});
+
 // Route to create a new expense
 router.post("/", async (req, res) => {
   try {
-    const { cost, name, date, MonthlyExpenseId, TypeExpenseId, UserId } =
+    const { cost, name, date, month, year, TypeExpenseId, UserId } =
       req.body;
 
-    if (!cost || !name || !date) {
+    if (!cost || !name || !date || !month || !year) {
       return res.status(400).json({ error: "Required fields are missing" });
     }
+
+    let monthlyExpense = await MonthlyExpense.findOne({
+      where: {
+        UserId,
+        year,
+        month,
+      },
+    });
+
+    if (!monthlyExpense) {
+      monthlyExpense = await MonthlyExpense.create({
+        UserId,
+        year,
+        month,
+      });
+    }
+
+    const MonthlyExpenseId = monthlyExpense.id;
 
     const newExpense = await Expense.create({
       cost,

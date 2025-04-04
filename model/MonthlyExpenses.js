@@ -4,7 +4,7 @@ const sequelize = require("../orm");
 
 const MonthlyExpenses = sequelize.define("MonthlyExpenses", {
   monthName: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   year: {
