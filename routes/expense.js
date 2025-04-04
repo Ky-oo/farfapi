@@ -72,7 +72,8 @@ router.get("/user/:id", async (req, res) => {
 });
 
 // Route to get all expenses by UserId, year, and month
-router.get("/user/:id/:year/:month", async (req, res) => {
+router.get("/user/:id/:month/:year", async (req, res) => {
+  console.log("Fetching expenses for user:", req.params.id);
   try {
     const { id, year, month } = req.params;
 
@@ -106,7 +107,7 @@ router.get("/user/:id/:year/:month", async (req, res) => {
 
     const expenses = await Expense.findAll({
       where: {
-        MonthlyExpenseId: MonthlyExpenses.id,
+        MonthlyExpenseId: monthlyExpense.id,
       },
       limit: pagination.limit,
       offset: pagination.offset,
@@ -136,9 +137,9 @@ router.post("/", async (req, res) => {
 
     let monthlyExpense = await MonthlyExpenses.findOne({
       where: {
-        UserId,
-        year,
-        month,
+        UserId: UserId,
+        year: year,
+        month: month,
       },
     });
 
