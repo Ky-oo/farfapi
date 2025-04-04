@@ -1,8 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const { Expense } = require("../model");
+const { Expense, MonthlyExpenses } = require("../model");
 const handlePagination = require("./utils/pagination");
-const { MonthlyExpense } = require("../model");
 
 // Route to get a list of all expenses
 router.get("/", async (req, res) => {
@@ -97,7 +96,7 @@ router.get("/user/:id/:year/:month", async (req, res) => {
     });
 
     if (!monthlyExpense) {
-      monthlyExpense = await MonthlyExpense.create({
+      monthlyExpense = await MonthlyExpenses.create({
         UserId: id,
         year: year,
         month: month,
