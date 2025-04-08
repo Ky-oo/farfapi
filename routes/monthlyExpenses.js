@@ -112,6 +112,27 @@ router.get("/byMonthYear", async function (req, res) {
   }
 });
 
+router.get("/user/:id/:month/:year", async function (req, res) {
+  try {
+    const { id, month, year } = req.params;
+
+    const monthlyExpenses = await MonthlyExpenses.findOne({
+      where: { UserId: id, month, year },
+    });
+
+    if (!monthlyExpenses) {
+      return res.status(404).json({ error: "Monthly expenses not found" });
+    }
+    res.status(200).json(monthlyExpenses);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "An An unexpected error occurred",
+      error: error.message,
+    });
+  }
+});
+
 // Route to create a new monthly expense
 router.post("/", async function (req, res) {
   try {
@@ -121,12 +142,21 @@ router.post("/", async function (req, res) {
       return res.status(400).json({ error: "Required fields are missing" });
     }
 
-    const monthlyExpense = await MonthlyExpenses.create({
-      month,
-      year,
-      max_expense,
-      UserId,
+    const monthlyExpense = await MonthlyExpenses.findOne({
+      where: { month, year, UserId },
     });
+
+    if (!monthlyExpense) {
+      monthlyExpense = await MonthlyExpenses.create({
+        month,
+        year,
+        max_expense,
+        UserId,
+      });
+    } else {
+      monthlyExpense.max_expense = max_expense;
+      monthlyExpense.save();
+    }
 
     res.status(201).json(monthlyExpense);
   } catch (error) {
