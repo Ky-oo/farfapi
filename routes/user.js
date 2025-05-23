@@ -3,7 +3,6 @@ var router = express.Router();
 const verifyIsAdmin = require("../middleware/verifyIsAdmin");
 const { User } = require("../model");
 const { Op } = require("sequelize");
-const bcrypt = require("bcrypt");
 const handlePagination = require("./utils/pagination");
 
 // Route to get a list of all users

@@ -73,7 +73,6 @@ router.get("/user/:id", async (req, res) => {
 
 // Route to get all expenses by UserId, year, and month
 router.get("/user/:id/:month/:year", async (req, res) => {
-  console.log("Fetching expenses for user:", req.params.id);
   try {
     const { id, year, month } = req.params;
 
