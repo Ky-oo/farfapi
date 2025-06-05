@@ -1,0 +1,39 @@
+name: unit tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql: 
+        image: mysql:8
+        env: 
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+        ports: 
+          - 3306:3306
+    env:
+      DB_USER: testuser
+      DB_PASSWORD: testpass
+      DB_NAME: testdb
+      LOGS_DIR: logs/
+      NODE_ENV: test
+    
+    steps:
+      - name: check out repository code
+        uses: actions/checkout@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Generate JWT private key
+        run: echo "JWT_PRIVATE_KEY=$(openssl rand -base64 32)" >> $GITHUB_ENV
+
+      - name: Run tests
+        run: npm test
