@@ -17,5 +17,8 @@
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
     "sequelize": "^6.37.6"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.1"
   }
 }
