@@ -6,7 +6,6 @@ async function handlePagination(req, model) {
 
   let quantity = await model.count();
   quantity = quantity === 0 ? 1 : quantity;
-
   if (!nbDisplayed || isNaN(nbDisplayed) || nbDisplayed < 1) {
     nbDisplayed = 10;
   }
