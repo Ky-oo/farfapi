@@ -31,7 +31,7 @@ describe("signup", () => {
       password: "password",
       firstname: "Test",
       lastname: "User",
-      gender: "male",
+      gender: "man",
       city: "Test City",
     });
 
@@ -40,7 +40,7 @@ describe("signup", () => {
       password: "password",
       firstname: "Test",
       lastname: "User",
-      gender: "male",
+      gender: "man",
       city: "Test City",
     });
     expect(response.status).toBe(400);

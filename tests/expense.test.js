@@ -21,7 +21,7 @@ beforeAll(async () => {
     password: "password",
     firstname: "Test",
     lastname: "User",
-    gender: "male",
+    gender: "man",
     city: "Test City",
     isAdmin: false,
   });
