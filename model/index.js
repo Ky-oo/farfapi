@@ -36,7 +36,9 @@ TypeTasks.hasMany(Task);
 User.hasMany(Subscription);
 Subscription.belongsTo(User);
 
-sequelize.sync({ alter: true });
+if (process.env.NODE_ENV !== "test") {
+  sequelize.sync({ alter: true });
+}
 
 module.exports = {
   User,
@@ -48,4 +50,5 @@ module.exports = {
   Task,
   TypeTasks,
   Subscription,
+  sequelize,
 };

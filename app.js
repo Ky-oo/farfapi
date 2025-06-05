@@ -3,8 +3,9 @@ var path = require("path");
 
 // Load environment variables
 const dotenv = require("dotenv");
-dotenv.config();
-
+dotenv.config({
+  path: process.env.NODE_ENV === "test" ? ".env.testing" : ".env",
+});
 // Load ORM
 require("./model");
 
